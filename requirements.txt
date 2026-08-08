@@ -2,8 +2,9 @@
 # (stdlib only for now: re, os, json, argparse, dataclasses)
 
 # --- Module 2: Embeddings & Vector Store (add as you build) ---
-# sentence-transformers
-# chromadb
+ sentence-transformers
+ chromadb
+# tqdm
 
 # --- Module 3: RAG / LLM orchestration ---
 # langchain

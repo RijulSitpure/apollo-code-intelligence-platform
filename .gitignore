@@ -189,3 +189,6 @@ data/raw_repo/
 # Ignore generated datasets
 data/full_parsed/
 data/parsed/
+
+data/vector_store/
+data/chunks/

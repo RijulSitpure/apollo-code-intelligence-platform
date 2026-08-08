@@ -14,7 +14,7 @@ Full project brief: [`docs/project_brief.md`](docs/project_brief.md)
 ## Status
 
 - [x] **Module 1 — Ingestion & Preprocessing**: parser for `.agc` source files
-- [ ] Module 2 — Chunking & Embeddings
+- [x] **Module 2 — Chunking & Embeddings**
 - [ ] Module 3 — RAG-powered Code Q&A Assistant
 - [ ] Module 4 — Dependency Knowledge Graph
 - [ ] Module 5 — ML-based Complexity/Risk Scoring
@@ -75,5 +75,4 @@ dependency graph in Module 4).
 
 Apollo Guidance Computer source code: public domain (see
 [chrislgarry/Apollo-11](https://github.com/chrislgarry/Apollo-11)).
-All original code in this repository: MIT (or your preferred license —
-update this section).
+All original code in this repository: MIT
