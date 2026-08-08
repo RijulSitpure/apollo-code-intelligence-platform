@@ -179,3 +179,13 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# Ignore local vector databases
+data/vector_db/
+
+# Ignore raw external datasets
+data/raw_repo/
+
+# Ignore generated datasets
+data/full_parsed/
+data/parsed/
