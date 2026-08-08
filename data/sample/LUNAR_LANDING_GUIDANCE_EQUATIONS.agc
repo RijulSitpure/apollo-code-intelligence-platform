@@ -1,0 +1,267 @@
+# Copyright:	Public domain.
+# Filename:	LUNAR_LANDING_GUIDANCE_EQUATIONS.agc
+# Purpose: 	Part of the source code for Luminary 1A build 099.
+#		It is part of the source code for the Lunar Module's (LM)
+#		Apollo Guidance Computer (AGC), for Apollo 11.
+# Assembler:	yaYUL
+# Contact:	HARTMUTH GUTSCHE <hgutsche@xplornet.com>.
+# Website:	www.ibiblio.org/apollo.
+# Pages:	798-828
+# Mod history:	2009-05-23 HG	Transcribed from page images.
+#		2009-06-05 RSB	Fixed a goofy thing that was apparently
+#				legal in GAP but not in yaYUL.  Eliminated
+#				a couple of lines of code that shouldn't
+#				have survived from Luminary 131 to here.
+#		2009-06-07 RSB	Fixed a typo.
+#
+# This source code has been transcribed or otherwise adapted from
+# digitized images of a hardcopy from the MIT Museum.  The digitization
+# was performed by Paul Fjeld, and arranged for by Deborah Douglas of
+# the Museum.  Many thanks to both.  The images (with suitable reduction
+# in storage size and consequent reduction in image quality as well) are
+# available online at www.ibiblio.org/apollo.  If for some reason you
+# find that the images are illegible, contact me at info@sandroid.org
+# about getting access to the (much) higher-quality images which Paul
+# actually created.
+#
+# Notations on the hardcopy document read, in part:
+#
+#	Assemble revision 001 of AGC program LMY99 by NASA 2021112-061
+#	16:27 JULY 14, 1969
+
+# Page 798
+		EBANK=	E2DPS
+		COUNT*	$$/F2DPS
+
+# ********************************************************
+# LUNAR LANDING FLIGHT SEQUENCE TABLES
+# ********************************************************
+
+# FLIGHT SEQUENCE TABLES ARE ARRANGED BY FUNCTION.  THEY ARE REFERENCED USING AS AN INDEX THE REGISTER WCHPHASE:
+#	WCHPHASE = -1 ---> IGNALG
+#	WCHPHASE =  0 ---> BRAKQUAD
+#	WCHPHASE =  1 ---> APPRQUAD
+#	WCHPHASE =  2 ---> VERTICAL
+
+#*********************************************************
+
+# ROUTINES FOR STARTING NEW GUIDANCE PHASES:
+
+		TCF	TTFINCR		# IGNALG
+NEWPHASE	TCF	TTFINCR		# BRAKQUAD
+		TCF	STARTP64	# APPRQUAD
+		TCF	P65START	# VERTICAL
+
+# PRE-GUIDANCE COMPUTATIONS:
+
+		TCF	CALCRGVG	# IGNALG
+PREGUIDE	TCF	RGVGCALC	# BRAKQUAD
+		TCF	REDESIG		# APPRQUAD
+		TCF	RGVGCALC	# VERTICAL
+
+# GUIDANCE EQUATIONS:
+
+		TCF	TTF/8CL		# IGNALG
+WHATGUID	TCF	TTF/8CL		# BRAKQUAD
+		TCF	TTF/8CL		# APPRQUAD
+		TCF	VERTGUID	# VERTICAL
+
+# POST GUIDANCE EQUATION COMPUTATIONS:
+
+		TCF	CGCALC		# IGNALG
+AFTRGUID	TCF	CGCALC		# BRAKQUAD
+		TCF	CGCALC		# APPRQUAD
+		TCF	STEER?		# VERTICAL
+
+# Page 799
+# WINDOW VECTOR COMPUTATIONS:
+
+		TCF	EXGSUB		# IGNALG
+WHATEXIT	TCF	EXBRAK		# BRAKQUAD
+		TCF	EXNORM		# APPRQUAD
+
+# DISPLAY ROUTINES:
+
+WHATDISP	TCF	P63DISPS	# BRAKQUAD
+		TCF	P64DISPS	# APPRQUAD
+		TCF	VERTDISP	# VERTICAL
+
+# ALARM ROUTINE FOR TTF COMPUTATION:
+
+		TCF	1406P00		# IGNALG
+WHATALM		TCF	1406ALM		# BRAKQUAD
+		TCF	1406ALM		# APPRQUAD
+
+# INDICES FOR REFERENCING TARGET PARAMETERS
+
+		OCT	0		# IGNALG
+TARGTDEX	OCT	0		# BRAKQUAD
+		OCT	34		# APPRQUAD
+
+#************************************************************************
+# ENTRY POINTS:  ?GUIDSUB FOR THE IGNITION ALGORITHM, LUNLAND FOR SERVOUT
+#************************************************************************
+
+# IGNITION ALGORITHM ENTRY:  DELIVERS N PASSES OF QUADRATIC GUIDANCE
+
+?GUIDSUB	EXIT
+		CAF	TWO		# N = 3
+		TS	NGUIDSUB
+		TCF	GUILDRET +2
+
+GUIDSUB		TS	NGUIDSUB	# ON SUCCEEDING PASSES SKIP TTFINCR
+		TCF	CALCRGVG
+
+# NORMAL ENTRY:  CONTROL COMES HERE FROM SERVOUT
+
+LUNLAND		TC	PHASCHNG
+		OCT	00035		# GROUP 5:  RETAIN ONLY PIPA TASK
+		TC	PHASCHNG
+		OCT	05023		# GROUP 3:  PROTECT GUIDANCE WITH PRIO 21
+		OCT	21000		#	JUST HIGHER THAN SERVICER'S PRIORITY
+
+# Page 800
+#*******************************************************************
+# GUILDENSTERN:  AUTO-MODES MONITOR (R13)
+#*******************************************************************
+
+		COUNT*	$$/R13
+
+GUILDEN		EXTEND			# IS UN-AUTO-THROTTLE DISCRETE PRESENT?
+ 		READ CHAN30
+		MASK	BIT5
+ 		CCS	A
+ 		TCF	STARTP67	# YES
+P67NOW?		TC	CHECKMM		# NO:  ARE WE IN P67 NOW?
+		DEC	67
+		TCF	STABL?		# NO
+STARTP66	TC	FASTCHNG	# YES
+		TC	NEWMODEX
+DEC66		DEC	66
+		EXTEND
+		DCA	HDOTDISP	# SET DESIRED ALTITUDE RATE = CURRENT
+		DXCH	VDGVERT		# 	ALTITUDE RATE.
+
+TTFINCR		TC	INTPRET
+		DLOAD	DSU
+			TPIP
+			TPIPOLD
+		SLR	PUSH		# SHIFT SCALES DELTA TIME TO 2(17) CSECS
+			11D
+		VXSC	VXV
+			LAND
+			WM
+		BVSU	RTB
+			LAND
+			NORMUNIT
+		VXSC	VSL1
+			/LAND/
+		STODL	LANDTEMP
+		EXIT
+
+CALCRGVG	TC	INTPRET		# IN IGNALG, COMPUTE V FROM INTEGRATION
+		VLOAD	MXV		#	OUTPUT AND TRIM CORRECTION TERM
+			VATT1		#	COMPUTED LAST PASS AND LEFT IN UNFC/2
+			REFSMMAT
+		VSR1	VAD
+			UNFC/2
+		STORE	V
+		EXIT
+
+RGVGCALC	TC	INTPRET		# ENTER HERE TO RECOMPUTE RG AND VG
+		VLOAD	VXV
+			R
+			WM
+		VAD	VSR2		# RESCALE TO UNITS OF 2(9) M/CS
+			V
+		STORE	ANGTERM
+		MXV
+			CG		# NO SHIFT SINCE ANGTERM IS DOUBLE SIZED
+		STORE	VGU
+		EXIT
+
+# **************************************************************************
+# TTF/8 COMPUTATION
+# **************************************************************************
+
+TTF/8CL		TC	INTPRETX
+		DLOAD*
+			JDG2TTF,1
+		STODL*	TABLTTF +6	# A(3) = 8 JDG  TO TABLTTF
+			ADG2TTF,1	#             2
+		EXIT
+
+QUADGUID	CS	TTF/8
+		AD	LEADTIME	# LEADTIME IS A NEGATIVE NUMBER
+		AD	POSMAX		# SAFEGUARD THE COMPUTATIONS THAT FOLLOW
+		TS	L		#	BY FORCING -TTF*LEADTIME > OR = ZERO
+		EXIT
+
+EXTLOGIC	INDEX	WCHPHASE	# WCHPHASE = 1   APPRQUAD
+		CA	TENDBRAK	# WCHPHASE = 0   BRAKQUAD
+		AD	TTF/8
+
+EXGSUB		TC	INTPRET		# COMPUTE TRIM VELOCITY CORRECTION TERM.
+		VLOAD	RTB
+			UNFC/2
+			NORMUNIT
+		VXSC	VXSC
+			ZOOMTIME
+			TRIMACCL
+		STORE	UNFC/2
+		EXIT
+
+		CCS	NGUIDSUB
+		TCF	GUIDSUB
+		CCS	NIGNLOOP
+		TCF	+3
+		TC	ALARM
+		OCT	01412
+
+VERTGUID	CCS	WCHVERT
+		TCF	P67VERT		# POSITIVE NON-ZERO ---> P67
+		TCF	P66VERT		# +0
+
+ROOTPSRS	EXTEND
+		QXCH	RETROOT		# RETURN ADRES
+		TS	PWRPTR		# PWR TABLE POINTER
+		DXCH	MPAC +3		# PWR TABLE ADRES, N-1
+		CA	DERTABLL
+		TS	DERPTR		# DER TABL POINTER
+		TS	MPAC +5		# DER TABL ADRES
+		CCS	MPAC +4		# NO POWER SERIES DEGREE 1 OR LESS
+		TS	MPAC +6		# N-2
+		CA	ZERO		# MODE USED AS ITERATION COUNTER.  MODE
+		TS	MODE		# MUST BE POS SO ABS WON'T COMP MPAC+3 ETC.
+
+1406P00		TC	POODOO
+		OCT	01406
+1406ALM		TC	ALARM
+		OCT	01406
+		TCF	RATESTOP
+
+FASTCHNG	CA	EBANK3		# SPECIALIZED 'PHASCHNG' ROUTINE
+		XCH	EBANK
+		DXCH	L
+		TS	PHSNAME3
+		LXCH	EBANK
+		EBANK=	E2DPS
+		TC	A
+
+RDG		=	RBRFG
+VDG		=	VBRFG
+ADG		=	ABRFG
+
+TABLTTFL	ADRES	TABLTTF +3	# ADDRESS FOR REFERENCING TTF TABLE
+TTFSCALE	=	BIT12
+TSCALINV	=	BIT4
+-DEC103		DEC	-103
++DEC99		DEC	+99
+TREDESCL	DEC	-.08
+180DEGS		DEC	+180
+1/2DEG		DEC	+.00278
+PROJMAX		DEC	.42262 B-3	# SIN(25')/8 TO COMPARE WITH PROJ
+PROJMIN		DEC	.25882 B-3	# SIN(15')/8 TO COMPARE WITH PROJ
+V06N63		VN	0663		# P63
+V06N64		VN	0664		# P64
+V06N60		VN	0660		# P65, P66, P67

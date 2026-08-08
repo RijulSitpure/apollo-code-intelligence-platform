@@ -1,0 +1,24 @@
+# --- Module 1: Ingestion & Parsing ---
+# (stdlib only for now: re, os, json, argparse, dataclasses)
+
+# --- Module 2: Embeddings & Vector Store (add as you build) ---
+# sentence-transformers
+# chromadb
+
+# --- Module 3: RAG / LLM orchestration ---
+# langchain
+# langchain-community
+
+# --- Module 4: Knowledge Graph ---
+# neo4j
+
+# --- Module 5: ML (complexity/risk scoring) ---
+# scikit-learn
+# pandas
+# numpy
+
+# --- Module 6/8: Backend, eval, tooling ---
+# fastapi
+# uvicorn
+# ragas
+# pytest

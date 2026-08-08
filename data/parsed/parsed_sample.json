@@ -1,0 +1,2049 @@
+[
+  {
+    "filename": "LUNAR_LANDING_GUIDANCE_EQUATIONS.agc",
+    "header": {
+      "Copyright": "Public domain.",
+      "Filename": "LUNAR_LANDING_GUIDANCE_EQUATIONS.agc",
+      "Purpose": "Part of the source code for Luminary 1A build 099. It is part of the source code for the Lunar Module's (LM) Apollo Guidance Computer (AGC), for Apollo 11.",
+      "Assembler": "yaYUL",
+      "Contact": "HARTMUTH GUTSCHE <hgutsche@xplornet.com>.",
+      "Website": "www.ibiblio.org/apollo.",
+      "Pages": "798-828",
+      "Mod history": "2009-05-23 HG\tTranscribed from page images. 2009-06-05 RSB\tFixed a goofy thing that was apparently legal in GAP but not in yaYUL.  Eliminated a couple of lines of code that shouldn't have survived from Luminary 131 to here. 2009-06-07 RSB\tFixed a typo. This source code has been transcribed or otherwise adapted from digitized images of a hardcopy from the MIT Museum.  The digitization was performed by Paul Fjeld, and arranged for by Deborah Douglas of the Museum.  Many thanks to both.  The images (with suitable reduction in storage size and consequent reduction in image quality as well) are available online at www.ibiblio.org/apollo.  If for some reason you find that the images are illegible, contact me at info@sandroid.org about getting access to the (much) higher-quality images which Paul actually created. Notations on the hardcopy document read, in part: Assemble revision 001 of AGC program LMY99 by NASA 2021112-061 16:27 JULY 14, 1969"
+    },
+    "routines": [
+      {
+        "name": "PREAMBLE",
+        "start_line": 33,
+        "end_line": 50,
+        "instructions": [
+          {
+            "line_no": 33,
+            "label": null,
+            "opcode": "EBANK=",
+            "operands": [
+              "E2DPS"
+            ],
+            "comment": null,
+            "raw": "\t\tEBANK=\tE2DPS"
+          },
+          {
+            "line_no": 34,
+            "label": null,
+            "opcode": "COUNT*",
+            "operands": [
+              "$$/F2DPS"
+            ],
+            "comment": null,
+            "raw": "\t\tCOUNT*\t$$/F2DPS"
+          },
+          {
+            "line_no": 50,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "TTFINCR"
+            ],
+            "comment": "IGNALG",
+            "raw": "\t\tTCF\tTTFINCR\t\t# IGNALG"
+          }
+        ],
+        "banner_comment": null,
+        "references": [
+          "TTFINCR"
+        ]
+      },
+      {
+        "name": "NEWPHASE",
+        "start_line": 51,
+        "end_line": 57,
+        "instructions": [
+          {
+            "line_no": 51,
+            "label": "NEWPHASE",
+            "opcode": "TCF",
+            "operands": [
+              "TTFINCR"
+            ],
+            "comment": "BRAKQUAD",
+            "raw": "NEWPHASE\tTCF\tTTFINCR\t\t# BRAKQUAD"
+          },
+          {
+            "line_no": 52,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "STARTP64"
+            ],
+            "comment": "APPRQUAD",
+            "raw": "\t\tTCF\tSTARTP64\t# APPRQUAD"
+          },
+          {
+            "line_no": 53,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "P65START"
+            ],
+            "comment": "VERTICAL",
+            "raw": "\t\tTCF\tP65START\t# VERTICAL"
+          },
+          {
+            "line_no": 57,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "CALCRGVG"
+            ],
+            "comment": "IGNALG",
+            "raw": "\t\tTCF\tCALCRGVG\t# IGNALG"
+          }
+        ],
+        "banner_comment": "ROUTINES FOR STARTING NEW GUIDANCE PHASES:",
+        "references": [
+          "TTFINCR",
+          "STARTP64",
+          "P65START",
+          "CALCRGVG"
+        ]
+      },
+      {
+        "name": "PREGUIDE",
+        "start_line": 58,
+        "end_line": 64,
+        "instructions": [
+          {
+            "line_no": 58,
+            "label": "PREGUIDE",
+            "opcode": "TCF",
+            "operands": [
+              "RGVGCALC"
+            ],
+            "comment": "BRAKQUAD",
+            "raw": "PREGUIDE\tTCF\tRGVGCALC\t# BRAKQUAD"
+          },
+          {
+            "line_no": 59,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "REDESIG"
+            ],
+            "comment": "APPRQUAD",
+            "raw": "\t\tTCF\tREDESIG\t\t# APPRQUAD"
+          },
+          {
+            "line_no": 60,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "RGVGCALC"
+            ],
+            "comment": "VERTICAL",
+            "raw": "\t\tTCF\tRGVGCALC\t# VERTICAL"
+          },
+          {
+            "line_no": 64,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "TTF/8CL"
+            ],
+            "comment": "IGNALG",
+            "raw": "\t\tTCF\tTTF/8CL\t\t# IGNALG"
+          }
+        ],
+        "banner_comment": "PRE-GUIDANCE COMPUTATIONS:",
+        "references": [
+          "RGVGCALC",
+          "REDESIG",
+          "RGVGCALC",
+          "TTF/8CL"
+        ]
+      },
+      {
+        "name": "WHATGUID",
+        "start_line": 65,
+        "end_line": 71,
+        "instructions": [
+          {
+            "line_no": 65,
+            "label": "WHATGUID",
+            "opcode": "TCF",
+            "operands": [
+              "TTF/8CL"
+            ],
+            "comment": "BRAKQUAD",
+            "raw": "WHATGUID\tTCF\tTTF/8CL\t\t# BRAKQUAD"
+          },
+          {
+            "line_no": 66,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "TTF/8CL"
+            ],
+            "comment": "APPRQUAD",
+            "raw": "\t\tTCF\tTTF/8CL\t\t# APPRQUAD"
+          },
+          {
+            "line_no": 67,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "VERTGUID"
+            ],
+            "comment": "VERTICAL",
+            "raw": "\t\tTCF\tVERTGUID\t# VERTICAL"
+          },
+          {
+            "line_no": 71,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "CGCALC"
+            ],
+            "comment": "IGNALG",
+            "raw": "\t\tTCF\tCGCALC\t\t# IGNALG"
+          }
+        ],
+        "banner_comment": "GUIDANCE EQUATIONS:",
+        "references": [
+          "TTF/8CL",
+          "TTF/8CL",
+          "VERTGUID",
+          "CGCALC"
+        ]
+      },
+      {
+        "name": "AFTRGUID",
+        "start_line": 72,
+        "end_line": 79,
+        "instructions": [
+          {
+            "line_no": 72,
+            "label": "AFTRGUID",
+            "opcode": "TCF",
+            "operands": [
+              "CGCALC"
+            ],
+            "comment": "BRAKQUAD",
+            "raw": "AFTRGUID\tTCF\tCGCALC\t\t# BRAKQUAD"
+          },
+          {
+            "line_no": 73,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "CGCALC"
+            ],
+            "comment": "APPRQUAD",
+            "raw": "\t\tTCF\tCGCALC\t\t# APPRQUAD"
+          },
+          {
+            "line_no": 74,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "STEER?"
+            ],
+            "comment": "VERTICAL",
+            "raw": "\t\tTCF\tSTEER?\t\t# VERTICAL"
+          },
+          {
+            "line_no": 79,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "EXGSUB"
+            ],
+            "comment": "IGNALG",
+            "raw": "\t\tTCF\tEXGSUB\t\t# IGNALG"
+          }
+        ],
+        "banner_comment": "POST GUIDANCE EQUATION COMPUTATIONS:",
+        "references": [
+          "CGCALC",
+          "CGCALC",
+          "STEER?",
+          "EXGSUB"
+        ]
+      },
+      {
+        "name": "WHATEXIT",
+        "start_line": 80,
+        "end_line": 84,
+        "instructions": [
+          {
+            "line_no": 80,
+            "label": "WHATEXIT",
+            "opcode": "TCF",
+            "operands": [
+              "EXBRAK"
+            ],
+            "comment": "BRAKQUAD",
+            "raw": "WHATEXIT\tTCF\tEXBRAK\t\t# BRAKQUAD"
+          },
+          {
+            "line_no": 81,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "EXNORM"
+            ],
+            "comment": "APPRQUAD",
+            "raw": "\t\tTCF\tEXNORM\t\t# APPRQUAD"
+          }
+        ],
+        "banner_comment": "WINDOW VECTOR COMPUTATIONS:",
+        "references": [
+          "EXBRAK",
+          "EXNORM"
+        ]
+      },
+      {
+        "name": "WHATDISP",
+        "start_line": 85,
+        "end_line": 91,
+        "instructions": [
+          {
+            "line_no": 85,
+            "label": "WHATDISP",
+            "opcode": "TCF",
+            "operands": [
+              "P63DISPS"
+            ],
+            "comment": "BRAKQUAD",
+            "raw": "WHATDISP\tTCF\tP63DISPS\t# BRAKQUAD"
+          },
+          {
+            "line_no": 86,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "P64DISPS"
+            ],
+            "comment": "APPRQUAD",
+            "raw": "\t\tTCF\tP64DISPS\t# APPRQUAD"
+          },
+          {
+            "line_no": 87,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "VERTDISP"
+            ],
+            "comment": "VERTICAL",
+            "raw": "\t\tTCF\tVERTDISP\t# VERTICAL"
+          },
+          {
+            "line_no": 91,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "1406P00"
+            ],
+            "comment": "IGNALG",
+            "raw": "\t\tTCF\t1406P00\t\t# IGNALG"
+          }
+        ],
+        "banner_comment": "DISPLAY ROUTINES:",
+        "references": [
+          "P63DISPS",
+          "P64DISPS",
+          "VERTDISP"
+        ]
+      },
+      {
+        "name": "WHATALM",
+        "start_line": 92,
+        "end_line": 97,
+        "instructions": [
+          {
+            "line_no": 92,
+            "label": "WHATALM",
+            "opcode": "TCF",
+            "operands": [
+              "1406ALM"
+            ],
+            "comment": "BRAKQUAD",
+            "raw": "WHATALM\t\tTCF\t1406ALM\t\t# BRAKQUAD"
+          },
+          {
+            "line_no": 93,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "1406ALM"
+            ],
+            "comment": "APPRQUAD",
+            "raw": "\t\tTCF\t1406ALM\t\t# APPRQUAD"
+          },
+          {
+            "line_no": 97,
+            "label": null,
+            "opcode": "OCT",
+            "operands": [
+              "0"
+            ],
+            "comment": "IGNALG",
+            "raw": "\t\tOCT\t0\t\t# IGNALG"
+          }
+        ],
+        "banner_comment": "ALARM ROUTINE FOR TTF COMPUTATION:",
+        "references": []
+      },
+      {
+        "name": "TARGTDEX",
+        "start_line": 98,
+        "end_line": 106,
+        "instructions": [
+          {
+            "line_no": 98,
+            "label": "TARGTDEX",
+            "opcode": "OCT",
+            "operands": [
+              "0"
+            ],
+            "comment": "BRAKQUAD",
+            "raw": "TARGTDEX\tOCT\t0\t\t# BRAKQUAD"
+          },
+          {
+            "line_no": 99,
+            "label": null,
+            "opcode": "OCT",
+            "operands": [
+              "34"
+            ],
+            "comment": "APPRQUAD",
+            "raw": "\t\tOCT\t34\t\t# APPRQUAD"
+          }
+        ],
+        "banner_comment": "INDICES FOR REFERENCING TARGET PARAMETERS",
+        "references": []
+      },
+      {
+        "name": "?GUIDSUB",
+        "start_line": 107,
+        "end_line": 111,
+        "instructions": [
+          {
+            "line_no": 107,
+            "label": "?GUIDSUB",
+            "opcode": "EXIT",
+            "operands": [],
+            "comment": null,
+            "raw": "?GUIDSUB\tEXIT"
+          },
+          {
+            "line_no": 108,
+            "label": null,
+            "opcode": "CAF",
+            "operands": [
+              "TWO"
+            ],
+            "comment": "N = 3",
+            "raw": "\t\tCAF\tTWO\t\t# N = 3"
+          },
+          {
+            "line_no": 109,
+            "label": null,
+            "opcode": "TS",
+            "operands": [
+              "NGUIDSUB"
+            ],
+            "comment": null,
+            "raw": "\t\tTS\tNGUIDSUB"
+          },
+          {
+            "line_no": 110,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "GUILDRET",
+              "+2"
+            ],
+            "comment": null,
+            "raw": "\t\tTCF\tGUILDRET +2"
+          }
+        ],
+        "banner_comment": "INDICES FOR REFERENCING TARGET PARAMETERS",
+        "references": [
+          "GUILDRET"
+        ]
+      },
+      {
+        "name": "GUIDSUB",
+        "start_line": 112,
+        "end_line": 116,
+        "instructions": [
+          {
+            "line_no": 112,
+            "label": "GUIDSUB",
+            "opcode": "TS",
+            "operands": [
+              "NGUIDSUB"
+            ],
+            "comment": "ON SUCCEEDING PASSES SKIP TTFINCR",
+            "raw": "GUIDSUB\t\tTS\tNGUIDSUB\t# ON SUCCEEDING PASSES SKIP TTFINCR"
+          },
+          {
+            "line_no": 113,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "CALCRGVG"
+            ],
+            "comment": null,
+            "raw": "\t\tTCF\tCALCRGVG"
+          }
+        ],
+        "banner_comment": "INDICES FOR REFERENCING TARGET PARAMETERS",
+        "references": [
+          "CALCRGVG"
+        ]
+      },
+      {
+        "name": "LUNLAND",
+        "start_line": 117,
+        "end_line": 129,
+        "instructions": [
+          {
+            "line_no": 117,
+            "label": "LUNLAND",
+            "opcode": "TC",
+            "operands": [
+              "PHASCHNG"
+            ],
+            "comment": null,
+            "raw": "LUNLAND\t\tTC\tPHASCHNG"
+          },
+          {
+            "line_no": 118,
+            "label": null,
+            "opcode": "OCT",
+            "operands": [
+              "00035"
+            ],
+            "comment": "GROUP 5:  RETAIN ONLY PIPA TASK",
+            "raw": "\t\tOCT\t00035\t\t# GROUP 5:  RETAIN ONLY PIPA TASK"
+          },
+          {
+            "line_no": 119,
+            "label": null,
+            "opcode": "TC",
+            "operands": [
+              "PHASCHNG"
+            ],
+            "comment": null,
+            "raw": "\t\tTC\tPHASCHNG"
+          },
+          {
+            "line_no": 120,
+            "label": null,
+            "opcode": "OCT",
+            "operands": [
+              "05023"
+            ],
+            "comment": "GROUP 3:  PROTECT GUIDANCE WITH PRIO 21",
+            "raw": "\t\tOCT\t05023\t\t# GROUP 3:  PROTECT GUIDANCE WITH PRIO 21"
+          },
+          {
+            "line_no": 121,
+            "label": null,
+            "opcode": "OCT",
+            "operands": [
+              "21000"
+            ],
+            "comment": "JUST HIGHER THAN SERVICER'S PRIORITY",
+            "raw": "\t\tOCT\t21000\t\t#\tJUST HIGHER THAN SERVICER'S PRIORITY"
+          },
+          {
+            "line_no": 128,
+            "label": null,
+            "opcode": "COUNT*",
+            "operands": [
+              "$$/R13"
+            ],
+            "comment": null,
+            "raw": "\t\tCOUNT*\t$$/R13"
+          }
+        ],
+        "banner_comment": "NORMAL ENTRY:  CONTROL COMES HERE FROM SERVOUT",
+        "references": [
+          "PHASCHNG",
+          "PHASCHNG"
+        ]
+      },
+      {
+        "name": "GUILDEN",
+        "start_line": 130,
+        "end_line": 134,
+        "instructions": [
+          {
+            "line_no": 130,
+            "label": "GUILDEN",
+            "opcode": "EXTEND",
+            "operands": [],
+            "comment": "IS UN-AUTO-THROTTLE DISCRETE PRESENT?",
+            "raw": "GUILDEN\t\tEXTEND\t\t\t# IS UN-AUTO-THROTTLE DISCRETE PRESENT?"
+          },
+          {
+            "line_no": 131,
+            "label": null,
+            "opcode": "READ",
+            "operands": [
+              "CHAN30"
+            ],
+            "comment": null,
+            "raw": " \t\tREAD CHAN30"
+          },
+          {
+            "line_no": 132,
+            "label": null,
+            "opcode": "MASK",
+            "operands": [
+              "BIT5"
+            ],
+            "comment": null,
+            "raw": "\t\tMASK\tBIT5"
+          },
+          {
+            "line_no": 133,
+            "label": null,
+            "opcode": "CCS",
+            "operands": [
+              "A"
+            ],
+            "comment": null,
+            "raw": " \t\tCCS\tA"
+          },
+          {
+            "line_no": 134,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "STARTP67"
+            ],
+            "comment": "YES",
+            "raw": " \t\tTCF\tSTARTP67\t# YES"
+          }
+        ],
+        "banner_comment": "GUILDENSTERN:  AUTO-MODES MONITOR (R13)",
+        "references": [
+          "A",
+          "STARTP67"
+        ]
+      },
+      {
+        "name": "P67NOW?",
+        "start_line": 135,
+        "end_line": 137,
+        "instructions": [
+          {
+            "line_no": 135,
+            "label": "P67NOW?",
+            "opcode": "TC",
+            "operands": [
+              "CHECKMM"
+            ],
+            "comment": "NO:  ARE WE IN P67 NOW?",
+            "raw": "P67NOW?\t\tTC\tCHECKMM\t\t# NO:  ARE WE IN P67 NOW?"
+          },
+          {
+            "line_no": 136,
+            "label": null,
+            "opcode": "DEC",
+            "operands": [
+              "67"
+            ],
+            "comment": null,
+            "raw": "\t\tDEC\t67"
+          },
+          {
+            "line_no": 137,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "STABL?"
+            ],
+            "comment": "NO",
+            "raw": "\t\tTCF\tSTABL?\t\t# NO"
+          }
+        ],
+        "banner_comment": "GUILDENSTERN:  AUTO-MODES MONITOR (R13)",
+        "references": [
+          "CHECKMM",
+          "STABL?"
+        ]
+      },
+      {
+        "name": "STARTP66",
+        "start_line": 138,
+        "end_line": 139,
+        "instructions": [
+          {
+            "line_no": 138,
+            "label": "STARTP66",
+            "opcode": "TC",
+            "operands": [
+              "FASTCHNG"
+            ],
+            "comment": "YES",
+            "raw": "STARTP66\tTC\tFASTCHNG\t# YES"
+          },
+          {
+            "line_no": 139,
+            "label": null,
+            "opcode": "TC",
+            "operands": [
+              "NEWMODEX"
+            ],
+            "comment": null,
+            "raw": "\t\tTC\tNEWMODEX"
+          }
+        ],
+        "banner_comment": "GUILDENSTERN:  AUTO-MODES MONITOR (R13)",
+        "references": [
+          "FASTCHNG",
+          "NEWMODEX"
+        ]
+      },
+      {
+        "name": "DEC66",
+        "start_line": 140,
+        "end_line": 144,
+        "instructions": [
+          {
+            "line_no": 140,
+            "label": "DEC66",
+            "opcode": "DEC",
+            "operands": [
+              "66"
+            ],
+            "comment": null,
+            "raw": "DEC66\t\tDEC\t66"
+          },
+          {
+            "line_no": 141,
+            "label": null,
+            "opcode": "EXTEND",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\tEXTEND"
+          },
+          {
+            "line_no": 142,
+            "label": null,
+            "opcode": "DCA",
+            "operands": [
+              "HDOTDISP"
+            ],
+            "comment": "SET DESIRED ALTITUDE RATE = CURRENT",
+            "raw": "\t\tDCA\tHDOTDISP\t# SET DESIRED ALTITUDE RATE = CURRENT"
+          },
+          {
+            "line_no": 143,
+            "label": null,
+            "opcode": "DXCH",
+            "operands": [
+              "VDGVERT"
+            ],
+            "comment": "ALTITUDE RATE.",
+            "raw": "\t\tDXCH\tVDGVERT\t\t# \tALTITUDE RATE."
+          }
+        ],
+        "banner_comment": "GUILDENSTERN:  AUTO-MODES MONITOR (R13)",
+        "references": []
+      },
+      {
+        "name": "TTFINCR",
+        "start_line": 145,
+        "end_line": 161,
+        "instructions": [
+          {
+            "line_no": 145,
+            "label": "TTFINCR",
+            "opcode": "TC",
+            "operands": [
+              "INTPRET"
+            ],
+            "comment": null,
+            "raw": "TTFINCR\t\tTC\tINTPRET"
+          },
+          {
+            "line_no": 146,
+            "label": null,
+            "opcode": "DLOAD",
+            "operands": [
+              "DSU"
+            ],
+            "comment": null,
+            "raw": "\t\tDLOAD\tDSU"
+          },
+          {
+            "line_no": 147,
+            "label": null,
+            "opcode": "TPIP",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tTPIP"
+          },
+          {
+            "line_no": 148,
+            "label": null,
+            "opcode": "TPIPOLD",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tTPIPOLD"
+          },
+          {
+            "line_no": 149,
+            "label": null,
+            "opcode": "SLR",
+            "operands": [
+              "PUSH"
+            ],
+            "comment": "SHIFT SCALES DELTA TIME TO 2(17) CSECS",
+            "raw": "\t\tSLR\tPUSH\t\t# SHIFT SCALES DELTA TIME TO 2(17) CSECS"
+          },
+          {
+            "line_no": 150,
+            "label": null,
+            "opcode": "11D",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\t11D"
+          },
+          {
+            "line_no": 151,
+            "label": null,
+            "opcode": "VXSC",
+            "operands": [
+              "VXV"
+            ],
+            "comment": null,
+            "raw": "\t\tVXSC\tVXV"
+          },
+          {
+            "line_no": 152,
+            "label": null,
+            "opcode": "LAND",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tLAND"
+          },
+          {
+            "line_no": 153,
+            "label": null,
+            "opcode": "WM",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tWM"
+          },
+          {
+            "line_no": 154,
+            "label": null,
+            "opcode": "BVSU",
+            "operands": [
+              "RTB"
+            ],
+            "comment": null,
+            "raw": "\t\tBVSU\tRTB"
+          },
+          {
+            "line_no": 155,
+            "label": null,
+            "opcode": "LAND",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tLAND"
+          },
+          {
+            "line_no": 156,
+            "label": null,
+            "opcode": "NORMUNIT",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tNORMUNIT"
+          },
+          {
+            "line_no": 157,
+            "label": null,
+            "opcode": "VXSC",
+            "operands": [
+              "VSL1"
+            ],
+            "comment": null,
+            "raw": "\t\tVXSC\tVSL1"
+          },
+          {
+            "line_no": 158,
+            "label": null,
+            "opcode": "/LAND/",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\t/LAND/"
+          },
+          {
+            "line_no": 159,
+            "label": null,
+            "opcode": "STODL",
+            "operands": [
+              "LANDTEMP"
+            ],
+            "comment": null,
+            "raw": "\t\tSTODL\tLANDTEMP"
+          },
+          {
+            "line_no": 160,
+            "label": null,
+            "opcode": "EXIT",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\tEXIT"
+          }
+        ],
+        "banner_comment": "GUILDENSTERN:  AUTO-MODES MONITOR (R13)",
+        "references": [
+          "INTPRET"
+        ]
+      },
+      {
+        "name": "CALCRGVG",
+        "start_line": 162,
+        "end_line": 170,
+        "instructions": [
+          {
+            "line_no": 162,
+            "label": "CALCRGVG",
+            "opcode": "TC",
+            "operands": [
+              "INTPRET"
+            ],
+            "comment": "IN IGNALG, COMPUTE V FROM INTEGRATION",
+            "raw": "CALCRGVG\tTC\tINTPRET\t\t# IN IGNALG, COMPUTE V FROM INTEGRATION"
+          },
+          {
+            "line_no": 163,
+            "label": null,
+            "opcode": "VLOAD",
+            "operands": [
+              "MXV"
+            ],
+            "comment": "OUTPUT AND TRIM CORRECTION TERM",
+            "raw": "\t\tVLOAD\tMXV\t\t#\tOUTPUT AND TRIM CORRECTION TERM"
+          },
+          {
+            "line_no": 164,
+            "label": null,
+            "opcode": "VATT1",
+            "operands": [],
+            "comment": "COMPUTED LAST PASS AND LEFT IN UNFC/2",
+            "raw": "\t\t\tVATT1\t\t#\tCOMPUTED LAST PASS AND LEFT IN UNFC/2"
+          },
+          {
+            "line_no": 165,
+            "label": null,
+            "opcode": "REFSMMAT",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tREFSMMAT"
+          },
+          {
+            "line_no": 166,
+            "label": null,
+            "opcode": "VSR1",
+            "operands": [
+              "VAD"
+            ],
+            "comment": null,
+            "raw": "\t\tVSR1\tVAD"
+          },
+          {
+            "line_no": 167,
+            "label": null,
+            "opcode": "UNFC/2",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tUNFC/2"
+          },
+          {
+            "line_no": 168,
+            "label": null,
+            "opcode": "STORE",
+            "operands": [
+              "V"
+            ],
+            "comment": null,
+            "raw": "\t\tSTORE\tV"
+          },
+          {
+            "line_no": 169,
+            "label": null,
+            "opcode": "EXIT",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\tEXIT"
+          }
+        ],
+        "banner_comment": "GUILDENSTERN:  AUTO-MODES MONITOR (R13)",
+        "references": [
+          "INTPRET"
+        ]
+      },
+      {
+        "name": "RGVGCALC",
+        "start_line": 171,
+        "end_line": 186,
+        "instructions": [
+          {
+            "line_no": 171,
+            "label": "RGVGCALC",
+            "opcode": "TC",
+            "operands": [
+              "INTPRET"
+            ],
+            "comment": "ENTER HERE TO RECOMPUTE RG AND VG",
+            "raw": "RGVGCALC\tTC\tINTPRET\t\t# ENTER HERE TO RECOMPUTE RG AND VG"
+          },
+          {
+            "line_no": 172,
+            "label": null,
+            "opcode": "VLOAD",
+            "operands": [
+              "VXV"
+            ],
+            "comment": null,
+            "raw": "\t\tVLOAD\tVXV"
+          },
+          {
+            "line_no": 173,
+            "label": null,
+            "opcode": "R",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tR"
+          },
+          {
+            "line_no": 174,
+            "label": null,
+            "opcode": "WM",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tWM"
+          },
+          {
+            "line_no": 175,
+            "label": null,
+            "opcode": "VAD",
+            "operands": [
+              "VSR2"
+            ],
+            "comment": "RESCALE TO UNITS OF 2(9) M/CS",
+            "raw": "\t\tVAD\tVSR2\t\t# RESCALE TO UNITS OF 2(9) M/CS"
+          },
+          {
+            "line_no": 176,
+            "label": null,
+            "opcode": "V",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tV"
+          },
+          {
+            "line_no": 177,
+            "label": null,
+            "opcode": "STORE",
+            "operands": [
+              "ANGTERM"
+            ],
+            "comment": null,
+            "raw": "\t\tSTORE\tANGTERM"
+          },
+          {
+            "line_no": 178,
+            "label": null,
+            "opcode": "MXV",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\tMXV"
+          },
+          {
+            "line_no": 179,
+            "label": null,
+            "opcode": "CG",
+            "operands": [],
+            "comment": "NO SHIFT SINCE ANGTERM IS DOUBLE SIZED",
+            "raw": "\t\t\tCG\t\t# NO SHIFT SINCE ANGTERM IS DOUBLE SIZED"
+          },
+          {
+            "line_no": 180,
+            "label": null,
+            "opcode": "STORE",
+            "operands": [
+              "VGU"
+            ],
+            "comment": null,
+            "raw": "\t\tSTORE\tVGU"
+          },
+          {
+            "line_no": 181,
+            "label": null,
+            "opcode": "EXIT",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\tEXIT"
+          }
+        ],
+        "banner_comment": "GUILDENSTERN:  AUTO-MODES MONITOR (R13)",
+        "references": [
+          "INTPRET"
+        ]
+      },
+      {
+        "name": "TTF/8CL",
+        "start_line": 187,
+        "end_line": 193,
+        "instructions": [
+          {
+            "line_no": 187,
+            "label": "TTF/8CL",
+            "opcode": "TC",
+            "operands": [
+              "INTPRETX"
+            ],
+            "comment": null,
+            "raw": "TTF/8CL\t\tTC\tINTPRETX"
+          },
+          {
+            "line_no": 188,
+            "label": null,
+            "opcode": "DLOAD*",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\tDLOAD*"
+          },
+          {
+            "line_no": 189,
+            "label": null,
+            "opcode": "JDG2TTF,1",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tJDG2TTF,1"
+          },
+          {
+            "line_no": 190,
+            "label": null,
+            "opcode": "STODL*",
+            "operands": [
+              "TABLTTF",
+              "+6"
+            ],
+            "comment": "A(3) = 8 JDG  TO TABLTTF",
+            "raw": "\t\tSTODL*\tTABLTTF +6\t# A(3) = 8 JDG  TO TABLTTF"
+          },
+          {
+            "line_no": 191,
+            "label": null,
+            "opcode": "ADG2TTF,1",
+            "operands": [],
+            "comment": "2",
+            "raw": "\t\t\tADG2TTF,1\t#             2"
+          },
+          {
+            "line_no": 192,
+            "label": null,
+            "opcode": "EXIT",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\tEXIT"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": [
+          "INTPRETX"
+        ]
+      },
+      {
+        "name": "QUADGUID",
+        "start_line": 194,
+        "end_line": 199,
+        "instructions": [
+          {
+            "line_no": 194,
+            "label": "QUADGUID",
+            "opcode": "CS",
+            "operands": [
+              "TTF/8"
+            ],
+            "comment": null,
+            "raw": "QUADGUID\tCS\tTTF/8"
+          },
+          {
+            "line_no": 195,
+            "label": null,
+            "opcode": "AD",
+            "operands": [
+              "LEADTIME"
+            ],
+            "comment": "LEADTIME IS A NEGATIVE NUMBER",
+            "raw": "\t\tAD\tLEADTIME\t# LEADTIME IS A NEGATIVE NUMBER"
+          },
+          {
+            "line_no": 196,
+            "label": null,
+            "opcode": "AD",
+            "operands": [
+              "POSMAX"
+            ],
+            "comment": "SAFEGUARD THE COMPUTATIONS THAT FOLLOW",
+            "raw": "\t\tAD\tPOSMAX\t\t# SAFEGUARD THE COMPUTATIONS THAT FOLLOW"
+          },
+          {
+            "line_no": 197,
+            "label": null,
+            "opcode": "TS",
+            "operands": [
+              "L"
+            ],
+            "comment": "BY FORCING -TTF*LEADTIME > OR = ZERO",
+            "raw": "\t\tTS\tL\t\t#\tBY FORCING -TTF*LEADTIME > OR = ZERO"
+          },
+          {
+            "line_no": 198,
+            "label": null,
+            "opcode": "EXIT",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\tEXIT"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "EXTLOGIC",
+        "start_line": 200,
+        "end_line": 203,
+        "instructions": [
+          {
+            "line_no": 200,
+            "label": "EXTLOGIC",
+            "opcode": "INDEX",
+            "operands": [
+              "WCHPHASE"
+            ],
+            "comment": "WCHPHASE = 1   APPRQUAD",
+            "raw": "EXTLOGIC\tINDEX\tWCHPHASE\t# WCHPHASE = 1   APPRQUAD"
+          },
+          {
+            "line_no": 201,
+            "label": null,
+            "opcode": "CA",
+            "operands": [
+              "TENDBRAK"
+            ],
+            "comment": "WCHPHASE = 0   BRAKQUAD",
+            "raw": "\t\tCA\tTENDBRAK\t# WCHPHASE = 0   BRAKQUAD"
+          },
+          {
+            "line_no": 202,
+            "label": null,
+            "opcode": "AD",
+            "operands": [
+              "TTF/8"
+            ],
+            "comment": null,
+            "raw": "\t\tAD\tTTF/8"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "EXGSUB",
+        "start_line": 204,
+        "end_line": 220,
+        "instructions": [
+          {
+            "line_no": 204,
+            "label": "EXGSUB",
+            "opcode": "TC",
+            "operands": [
+              "INTPRET"
+            ],
+            "comment": "COMPUTE TRIM VELOCITY CORRECTION TERM.",
+            "raw": "EXGSUB\t\tTC\tINTPRET\t\t# COMPUTE TRIM VELOCITY CORRECTION TERM."
+          },
+          {
+            "line_no": 205,
+            "label": null,
+            "opcode": "VLOAD",
+            "operands": [
+              "RTB"
+            ],
+            "comment": null,
+            "raw": "\t\tVLOAD\tRTB"
+          },
+          {
+            "line_no": 206,
+            "label": null,
+            "opcode": "UNFC/2",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tUNFC/2"
+          },
+          {
+            "line_no": 207,
+            "label": null,
+            "opcode": "NORMUNIT",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tNORMUNIT"
+          },
+          {
+            "line_no": 208,
+            "label": null,
+            "opcode": "VXSC",
+            "operands": [
+              "VXSC"
+            ],
+            "comment": null,
+            "raw": "\t\tVXSC\tVXSC"
+          },
+          {
+            "line_no": 209,
+            "label": null,
+            "opcode": "ZOOMTIME",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tZOOMTIME"
+          },
+          {
+            "line_no": 210,
+            "label": null,
+            "opcode": "TRIMACCL",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\t\tTRIMACCL"
+          },
+          {
+            "line_no": 211,
+            "label": null,
+            "opcode": "STORE",
+            "operands": [
+              "UNFC/2"
+            ],
+            "comment": null,
+            "raw": "\t\tSTORE\tUNFC/2"
+          },
+          {
+            "line_no": 212,
+            "label": null,
+            "opcode": "EXIT",
+            "operands": [],
+            "comment": null,
+            "raw": "\t\tEXIT"
+          },
+          {
+            "line_no": 214,
+            "label": null,
+            "opcode": "CCS",
+            "operands": [
+              "NGUIDSUB"
+            ],
+            "comment": null,
+            "raw": "\t\tCCS\tNGUIDSUB"
+          },
+          {
+            "line_no": 215,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "GUIDSUB"
+            ],
+            "comment": null,
+            "raw": "\t\tTCF\tGUIDSUB"
+          },
+          {
+            "line_no": 216,
+            "label": null,
+            "opcode": "CCS",
+            "operands": [
+              "NIGNLOOP"
+            ],
+            "comment": null,
+            "raw": "\t\tCCS\tNIGNLOOP"
+          },
+          {
+            "line_no": 217,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "+3"
+            ],
+            "comment": null,
+            "raw": "\t\tTCF\t+3"
+          },
+          {
+            "line_no": 218,
+            "label": null,
+            "opcode": "TC",
+            "operands": [
+              "ALARM"
+            ],
+            "comment": null,
+            "raw": "\t\tTC\tALARM"
+          },
+          {
+            "line_no": 219,
+            "label": null,
+            "opcode": "OCT",
+            "operands": [
+              "01412"
+            ],
+            "comment": null,
+            "raw": "\t\tOCT\t01412"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": [
+          "INTPRET",
+          "NGUIDSUB",
+          "GUIDSUB",
+          "NIGNLOOP",
+          "ALARM"
+        ]
+      },
+      {
+        "name": "VERTGUID",
+        "start_line": 221,
+        "end_line": 224,
+        "instructions": [
+          {
+            "line_no": 221,
+            "label": "VERTGUID",
+            "opcode": "CCS",
+            "operands": [
+              "WCHVERT"
+            ],
+            "comment": null,
+            "raw": "VERTGUID\tCCS\tWCHVERT"
+          },
+          {
+            "line_no": 222,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "P67VERT"
+            ],
+            "comment": "POSITIVE NON-ZERO ---> P67",
+            "raw": "\t\tTCF\tP67VERT\t\t# POSITIVE NON-ZERO ---> P67"
+          },
+          {
+            "line_no": 223,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "P66VERT"
+            ],
+            "comment": "+0",
+            "raw": "\t\tTCF\tP66VERT\t\t# +0"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": [
+          "WCHVERT",
+          "P67VERT",
+          "P66VERT"
+        ]
+      },
+      {
+        "name": "ROOTPSRS",
+        "start_line": 225,
+        "end_line": 236,
+        "instructions": [
+          {
+            "line_no": 225,
+            "label": "ROOTPSRS",
+            "opcode": "EXTEND",
+            "operands": [],
+            "comment": null,
+            "raw": "ROOTPSRS\tEXTEND"
+          },
+          {
+            "line_no": 226,
+            "label": null,
+            "opcode": "QXCH",
+            "operands": [
+              "RETROOT"
+            ],
+            "comment": "RETURN ADRES",
+            "raw": "\t\tQXCH\tRETROOT\t\t# RETURN ADRES"
+          },
+          {
+            "line_no": 227,
+            "label": null,
+            "opcode": "TS",
+            "operands": [
+              "PWRPTR"
+            ],
+            "comment": "PWR TABLE POINTER",
+            "raw": "\t\tTS\tPWRPTR\t\t# PWR TABLE POINTER"
+          },
+          {
+            "line_no": 228,
+            "label": null,
+            "opcode": "DXCH",
+            "operands": [
+              "MPAC",
+              "+3"
+            ],
+            "comment": "PWR TABLE ADRES, N-1",
+            "raw": "\t\tDXCH\tMPAC +3\t\t# PWR TABLE ADRES, N-1"
+          },
+          {
+            "line_no": 229,
+            "label": null,
+            "opcode": "CA",
+            "operands": [
+              "DERTABLL"
+            ],
+            "comment": null,
+            "raw": "\t\tCA\tDERTABLL"
+          },
+          {
+            "line_no": 230,
+            "label": null,
+            "opcode": "TS",
+            "operands": [
+              "DERPTR"
+            ],
+            "comment": "DER TABL POINTER",
+            "raw": "\t\tTS\tDERPTR\t\t# DER TABL POINTER"
+          },
+          {
+            "line_no": 231,
+            "label": null,
+            "opcode": "TS",
+            "operands": [
+              "MPAC",
+              "+5"
+            ],
+            "comment": "DER TABL ADRES",
+            "raw": "\t\tTS\tMPAC +5\t\t# DER TABL ADRES"
+          },
+          {
+            "line_no": 232,
+            "label": null,
+            "opcode": "CCS",
+            "operands": [
+              "MPAC",
+              "+4"
+            ],
+            "comment": "NO POWER SERIES DEGREE 1 OR LESS",
+            "raw": "\t\tCCS\tMPAC +4\t\t# NO POWER SERIES DEGREE 1 OR LESS"
+          },
+          {
+            "line_no": 233,
+            "label": null,
+            "opcode": "TS",
+            "operands": [
+              "MPAC",
+              "+6"
+            ],
+            "comment": "N-2",
+            "raw": "\t\tTS\tMPAC +6\t\t# N-2"
+          },
+          {
+            "line_no": 234,
+            "label": null,
+            "opcode": "CA",
+            "operands": [
+              "ZERO"
+            ],
+            "comment": "MODE USED AS ITERATION COUNTER.  MODE",
+            "raw": "\t\tCA\tZERO\t\t# MODE USED AS ITERATION COUNTER.  MODE"
+          },
+          {
+            "line_no": 235,
+            "label": null,
+            "opcode": "TS",
+            "operands": [
+              "MODE"
+            ],
+            "comment": "MUST BE POS SO ABS WON'T COMP MPAC+3 ETC.",
+            "raw": "\t\tTS\tMODE\t\t# MUST BE POS SO ABS WON'T COMP MPAC+3 ETC."
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": [
+          "MPAC"
+        ]
+      },
+      {
+        "name": "1406P00",
+        "start_line": 237,
+        "end_line": 238,
+        "instructions": [
+          {
+            "line_no": 237,
+            "label": "1406P00",
+            "opcode": "TC",
+            "operands": [
+              "POODOO"
+            ],
+            "comment": null,
+            "raw": "1406P00\t\tTC\tPOODOO"
+          },
+          {
+            "line_no": 238,
+            "label": null,
+            "opcode": "OCT",
+            "operands": [
+              "01406"
+            ],
+            "comment": null,
+            "raw": "\t\tOCT\t01406"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": [
+          "POODOO"
+        ]
+      },
+      {
+        "name": "1406ALM",
+        "start_line": 239,
+        "end_line": 242,
+        "instructions": [
+          {
+            "line_no": 239,
+            "label": "1406ALM",
+            "opcode": "TC",
+            "operands": [
+              "ALARM"
+            ],
+            "comment": null,
+            "raw": "1406ALM\t\tTC\tALARM"
+          },
+          {
+            "line_no": 240,
+            "label": null,
+            "opcode": "OCT",
+            "operands": [
+              "01406"
+            ],
+            "comment": null,
+            "raw": "\t\tOCT\t01406"
+          },
+          {
+            "line_no": 241,
+            "label": null,
+            "opcode": "TCF",
+            "operands": [
+              "RATESTOP"
+            ],
+            "comment": null,
+            "raw": "\t\tTCF\tRATESTOP"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": [
+          "ALARM",
+          "RATESTOP"
+        ]
+      },
+      {
+        "name": "FASTCHNG",
+        "start_line": 243,
+        "end_line": 250,
+        "instructions": [
+          {
+            "line_no": 243,
+            "label": "FASTCHNG",
+            "opcode": "CA",
+            "operands": [
+              "EBANK3"
+            ],
+            "comment": "SPECIALIZED 'PHASCHNG' ROUTINE",
+            "raw": "FASTCHNG\tCA\tEBANK3\t\t# SPECIALIZED 'PHASCHNG' ROUTINE"
+          },
+          {
+            "line_no": 244,
+            "label": null,
+            "opcode": "XCH",
+            "operands": [
+              "EBANK"
+            ],
+            "comment": null,
+            "raw": "\t\tXCH\tEBANK"
+          },
+          {
+            "line_no": 245,
+            "label": null,
+            "opcode": "DXCH",
+            "operands": [
+              "L"
+            ],
+            "comment": null,
+            "raw": "\t\tDXCH\tL"
+          },
+          {
+            "line_no": 246,
+            "label": null,
+            "opcode": "TS",
+            "operands": [
+              "PHSNAME3"
+            ],
+            "comment": null,
+            "raw": "\t\tTS\tPHSNAME3"
+          },
+          {
+            "line_no": 247,
+            "label": null,
+            "opcode": "LXCH",
+            "operands": [
+              "EBANK"
+            ],
+            "comment": null,
+            "raw": "\t\tLXCH\tEBANK"
+          },
+          {
+            "line_no": 248,
+            "label": null,
+            "opcode": "EBANK=",
+            "operands": [
+              "E2DPS"
+            ],
+            "comment": null,
+            "raw": "\t\tEBANK=\tE2DPS"
+          },
+          {
+            "line_no": 249,
+            "label": null,
+            "opcode": "TC",
+            "operands": [
+              "A"
+            ],
+            "comment": null,
+            "raw": "\t\tTC\tA"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": [
+          "A"
+        ]
+      },
+      {
+        "name": "RDG",
+        "start_line": 251,
+        "end_line": 251,
+        "instructions": [
+          {
+            "line_no": 251,
+            "label": "RDG",
+            "opcode": "=",
+            "operands": [
+              "RBRFG"
+            ],
+            "comment": null,
+            "raw": "RDG\t\t=\tRBRFG"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "VDG",
+        "start_line": 252,
+        "end_line": 252,
+        "instructions": [
+          {
+            "line_no": 252,
+            "label": "VDG",
+            "opcode": "=",
+            "operands": [
+              "VBRFG"
+            ],
+            "comment": null,
+            "raw": "VDG\t\t=\tVBRFG"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "ADG",
+        "start_line": 253,
+        "end_line": 254,
+        "instructions": [
+          {
+            "line_no": 253,
+            "label": "ADG",
+            "opcode": "=",
+            "operands": [
+              "ABRFG"
+            ],
+            "comment": null,
+            "raw": "ADG\t\t=\tABRFG"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "TABLTTFL",
+        "start_line": 255,
+        "end_line": 255,
+        "instructions": [
+          {
+            "line_no": 255,
+            "label": "TABLTTFL",
+            "opcode": "ADRES",
+            "operands": [
+              "TABLTTF",
+              "+3"
+            ],
+            "comment": "ADDRESS FOR REFERENCING TTF TABLE",
+            "raw": "TABLTTFL\tADRES\tTABLTTF +3\t# ADDRESS FOR REFERENCING TTF TABLE"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "TTFSCALE",
+        "start_line": 256,
+        "end_line": 256,
+        "instructions": [
+          {
+            "line_no": 256,
+            "label": "TTFSCALE",
+            "opcode": "=",
+            "operands": [
+              "BIT12"
+            ],
+            "comment": null,
+            "raw": "TTFSCALE\t=\tBIT12"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "TSCALINV",
+        "start_line": 257,
+        "end_line": 257,
+        "instructions": [
+          {
+            "line_no": 257,
+            "label": "TSCALINV",
+            "opcode": "=",
+            "operands": [
+              "BIT4"
+            ],
+            "comment": null,
+            "raw": "TSCALINV\t=\tBIT4"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "-DEC103",
+        "start_line": 258,
+        "end_line": 258,
+        "instructions": [
+          {
+            "line_no": 258,
+            "label": "-DEC103",
+            "opcode": "DEC",
+            "operands": [
+              "-103"
+            ],
+            "comment": null,
+            "raw": "-DEC103\t\tDEC\t-103"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "+DEC99",
+        "start_line": 259,
+        "end_line": 259,
+        "instructions": [
+          {
+            "line_no": 259,
+            "label": "+DEC99",
+            "opcode": "DEC",
+            "operands": [
+              "+99"
+            ],
+            "comment": null,
+            "raw": "+DEC99\t\tDEC\t+99"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "TREDESCL",
+        "start_line": 260,
+        "end_line": 260,
+        "instructions": [
+          {
+            "line_no": 260,
+            "label": "TREDESCL",
+            "opcode": "DEC",
+            "operands": [
+              "-.08"
+            ],
+            "comment": null,
+            "raw": "TREDESCL\tDEC\t-.08"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "180DEGS",
+        "start_line": 261,
+        "end_line": 261,
+        "instructions": [
+          {
+            "line_no": 261,
+            "label": "180DEGS",
+            "opcode": "DEC",
+            "operands": [
+              "+180"
+            ],
+            "comment": null,
+            "raw": "180DEGS\t\tDEC\t+180"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "1/2DEG",
+        "start_line": 262,
+        "end_line": 262,
+        "instructions": [
+          {
+            "line_no": 262,
+            "label": "1/2DEG",
+            "opcode": "DEC",
+            "operands": [
+              "+.00278"
+            ],
+            "comment": null,
+            "raw": "1/2DEG\t\tDEC\t+.00278"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "PROJMAX",
+        "start_line": 263,
+        "end_line": 263,
+        "instructions": [
+          {
+            "line_no": 263,
+            "label": "PROJMAX",
+            "opcode": "DEC",
+            "operands": [
+              ".42262",
+              "B-3"
+            ],
+            "comment": "SIN(25')/8 TO COMPARE WITH PROJ",
+            "raw": "PROJMAX\t\tDEC\t.42262 B-3\t# SIN(25')/8 TO COMPARE WITH PROJ"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "PROJMIN",
+        "start_line": 264,
+        "end_line": 264,
+        "instructions": [
+          {
+            "line_no": 264,
+            "label": "PROJMIN",
+            "opcode": "DEC",
+            "operands": [
+              ".25882",
+              "B-3"
+            ],
+            "comment": "SIN(15')/8 TO COMPARE WITH PROJ",
+            "raw": "PROJMIN\t\tDEC\t.25882 B-3\t# SIN(15')/8 TO COMPARE WITH PROJ"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "V06N63",
+        "start_line": 265,
+        "end_line": 265,
+        "instructions": [
+          {
+            "line_no": 265,
+            "label": "V06N63",
+            "opcode": "VN",
+            "operands": [
+              "0663"
+            ],
+            "comment": "P63",
+            "raw": "V06N63\t\tVN\t0663\t\t# P63"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "V06N64",
+        "start_line": 266,
+        "end_line": 266,
+        "instructions": [
+          {
+            "line_no": 266,
+            "label": "V06N64",
+            "opcode": "VN",
+            "operands": [
+              "0664"
+            ],
+            "comment": "P64",
+            "raw": "V06N64\t\tVN\t0664\t\t# P64"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      },
+      {
+        "name": "V06N60",
+        "start_line": 267,
+        "end_line": 267,
+        "instructions": [
+          {
+            "line_no": 267,
+            "label": "V06N60",
+            "opcode": "VN",
+            "operands": [
+              "0660"
+            ],
+            "comment": "P65, P66, P67",
+            "raw": "V06N60\t\tVN\t0660\t\t# P65, P66, P67"
+          }
+        ],
+        "banner_comment": "TTF/8 COMPUTATION",
+        "references": []
+      }
+    ],
+    "raw_line_count": 267
+  }
+]
