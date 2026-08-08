@@ -1,0 +1,182 @@
+{
+  "total_files_parsed": 175,
+  "total_routines": 14665,
+  "total_instructions": 80118,
+  "avg_routines_per_file": 83.8,
+  "avg_instructions_per_routine": 5.46,
+  "median_instructions_per_routine": 2,
+  "largest_routines": [
+    {
+      "file": "PINBALL_NOUN_TABLES.agc",
+      "routine": "IDADDTAB",
+      "n_instructions": 180,
+      "n_references": 0
+    },
+    {
+      "file": "PINBALL_NOUN_TABLES.agc",
+      "routine": "IDADDTAB",
+      "n_instructions": 180,
+      "n_references": 0
+    },
+    {
+      "file": "CONTROLLED_CONSTANTS.agc",
+      "routine": "REMDIST",
+      "n_instructions": 115,
+      "n_references": 0
+    },
+    {
+      "file": "STAR_TABLES.agc",
+      "routine": "PREAMBLE",
+      "n_instructions": 115,
+      "n_references": 0
+    },
+    {
+      "file": "P40-P47.agc",
+      "routine": "RASTEER1",
+      "n_instructions": 114,
+      "n_references": 0
+    },
+    {
+      "file": "LANDING_ANALOG_DISPLAYS.agc",
+      "routine": "SPEEDRUN",
+      "n_instructions": 110,
+      "n_references": 3
+    },
+    {
+      "file": "POWERED_FLIGHT_SUBROUTINES.agc",
+      "routine": "FLESHPOT",
+      "n_instructions": 108,
+      "n_references": 10
+    },
+    {
+      "file": "P20-P25.agc",
+      "routine": "HORIZ.1",
+      "n_instructions": 104,
+      "n_references": 0
+    },
+    {
+      "file": "P-AXIS_RCS_AUTOPILOT.agc",
+      "routine": "BACKP",
+      "n_instructions": 100,
+      "n_references": 7
+    },
+    {
+      "file": "P32-P35_P72-P75.agc",
+      "routine": "NTP/2",
+      "n_instructions": 100,
+      "n_references": 2
+    },
+    {
+      "file": "PINBALL_NOUN_TABLES.agc",
+      "routine": "NNADTAB",
+      "n_instructions": 100,
+      "n_references": 0
+    },
+    {
+      "file": "PINBALL_NOUN_TABLES.agc",
+      "routine": "NNTYPTAB",
+      "n_instructions": 100,
+      "n_references": 0
+    },
+    {
+      "file": "PINBALL_NOUN_TABLES.agc",
+      "routine": "NNADTAB",
+      "n_instructions": 100,
+      "n_references": 0
+    },
+    {
+      "file": "PINBALL_NOUN_TABLES.agc",
+      "routine": "NNTYPTAB",
+      "n_instructions": 100,
+      "n_references": 0
+    },
+    {
+      "file": "P32-P35_P72-P75.agc",
+      "routine": "CDHMVR",
+      "n_instructions": 99,
+      "n_references": 0
+    }
+  ],
+  "top_20_opcodes": [
+    [
+      "TC",
+      6965
+    ],
+    [
+      "TS",
+      4548
+    ],
+    [
+      "TCF",
+      3819
+    ],
+    [
+      "EXTEND",
+      3080
+    ],
+    [
+      "EQUALS",
+      2916
+    ],
+    [
+      "CAF",
+      2677
+    ],
+    [
+      "CA",
+      2402
+    ],
+    [
+      "OCT",
+      2274
+    ],
+    [
+      "CS",
+      1614
+    ],
+    [
+      "=",
+      1575
+    ],
+    [
+      "CCS",
+      1523
+    ],
+    [
+      "INDEX",
+      1511
+    ],
+    [
+      "MASK",
+      1454
+    ],
+    [
+      "DXCH",
+      1373
+    ],
+    [
+      "AD",
+      1354
+    ],
+    [
+      "STORE",
+      1304
+    ],
+    [
+      "2DEC",
+      1014
+    ],
+    [
+      "CADR",
+      1005
+    ],
+    [
+      "BANK",
+      930
+    ],
+    [
+      "EBANK=",
+      870
+    ]
+  ]
+}

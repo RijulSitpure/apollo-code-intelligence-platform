@@ -284,6 +284,10 @@ def main():
     else:
         results.append(agc_file_to_dict(parse_agc_file(args.path)))
 
+    out_dir = os.path.dirname(args.out)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
 
