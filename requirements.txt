@@ -9,6 +9,7 @@
 # --- Module 3: RAG / LLM orchestration ---
 # langchain
 # langchain-community
+ google-genai
 
 # --- Module 4: Knowledge Graph ---
 # neo4j

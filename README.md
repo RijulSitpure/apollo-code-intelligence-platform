@@ -15,7 +15,7 @@ Full project brief: [`docs/project_brief.md`](docs/project_brief.md)
 
 - [x] **Module 1 — Ingestion & Preprocessing**: parser for `.agc` source files
 - [x] **Module 2 — Chunking & Embeddings**
-- [ ] Module 3 — RAG-powered Code Q&A Assistant
+- [x] **Module 3 — RAG-powered Code Q&A Assistant**
 - [ ] Module 4 — Dependency Knowledge Graph
 - [ ] Module 5 — ML-based Complexity/Risk Scoring
 - [ ] Module 6 — Auto-Documentation Generator
